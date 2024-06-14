@@ -1,6 +1,8 @@
-import { SpotSeat } from '@/components/SpotSeat';
-import { EventAndSpotsFactory } from '@/models/factory/event-and-spots.factory';
 import Link from 'next/link';
+import { cookies } from 'next/headers';
+import { SpotSeat } from '@/components/SpotSeat';
+import { getEvent } from '@/actions/get-event.fetch';
+import { reserveSpotsAction } from '@/actions/reserve-spots.action';
 
 type SpotsLayoutPageProps = {
   params: {
@@ -8,9 +10,10 @@ type SpotsLayoutPageProps = {
   };
 };
 
-export default function SpotsLayoutPage({ params }: SpotsLayoutPageProps) {
-  console.log(params.eventId);
-  const { event, spots } = EventAndSpotsFactory.getOne();
+export default async function SpotsLayoutPage({
+  params,
+}: SpotsLayoutPageProps) {
+  const { event, spots } = await getEvent(parseInt(params.eventId));
 
   const rowLetters = spots.map((spot) => spot.name[0]);
   const uniqueRowLetters = rowLetters.filter(
@@ -23,8 +26,13 @@ export default function SpotsLayoutPage({ params }: SpotsLayoutPageProps) {
     };
   });
 
+  const reservedSpotRaw = cookies().get('spots')?.value;
+  const reservedSpots: string[] = reservedSpotRaw
+    ? JSON.parse(reservedSpotRaw)
+    : [];
+
   return (
-    <form>
+    <form action={reserveSpotsAction}>
       <input type="hidden" name="eventId" value={event.id} />
 
       <div className="container max-w-7xl min-h-screen m-auto bg-zinc-950 py-8 px-4 flex flex-col items-center">
@@ -40,15 +48,18 @@ export default function SpotsLayoutPage({ params }: SpotsLayoutPageProps) {
                   key={key}
                   spotId={spot.name}
                   spotLabel={spot.name.slice(1)}
-                  reserve={false}
-                  disabled={false}
+                  reserve={reservedSpots.includes(spot.name)}
+                  disabled={spot.status === 'sold'}
                 />
               ))}
             </div>
           </div>
         ))}
 
-        <p className="text-zinc-50 mt-4">{`Assentos escolhidos: ${'to do'}`}</p>
+        <p className="text-zinc-50 mt-4">
+          <span className="font-bold">Assentos escolhidos: </span>
+          <span>{reservedSpots.join(', ')}</span>
+        </p>
 
         <p className="mt-4">
           <button
