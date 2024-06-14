@@ -16,7 +16,7 @@ export default async function CheckoutPage() {
     : [];
 
   return (
-    <form>
+    <form action={checkoutAction}>
       <div className="container max-w-7xl min-h-screen m-auto bg-zinc-950 py-8 px-4 flex flex-col items-center">
         <h1 className="text-3xl font-bold mb-8">Checkout</h1>
 
