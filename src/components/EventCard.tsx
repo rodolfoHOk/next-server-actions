@@ -40,7 +40,7 @@ export function EventCard({ event }: EventCardProps) {
         <p className="text-gray-700 mt-2 flex justify-end">
           <Link
             href={`/events/${event.id}/spots-layout`}
-            className="bg-zinc-800 hover:bg-zinc-600 text-zinc-50 font-bold py-2 px-4 rounded transition-colors duration-200"
+            className="w-40 h-10 bg-gray-800 hover:bg-gray-500 flex items-center justify-center text-zinc-50 font-bold py-2 px-4 rounded transition-colors duration-200"
           >
             Reservar Lugar
           </Link>
