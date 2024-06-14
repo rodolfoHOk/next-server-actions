@@ -1,8 +1,8 @@
+import { getEvents } from '@/actions/get-events.action';
 import { EventCard } from '@/components/EventCard';
-import { EventFactory } from '@/models/factory/event.factory';
 
-export default function Home() {
-  const events = EventFactory.getList();
+export default async function Home() {
+  const events = await getEvents();
 
   return (
     <main className="container max-w-7xl min-h-screen m-auto bg-zinc-950 px-4 py-8">

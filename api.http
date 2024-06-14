@@ -1,0 +1,8 @@
+### API Get events
+GET http://localhost:8000/events
+
+### API Get event
+GET http://localhost:8000/events/1
+
+### Next API revalidate
+GET http://localhost:3000/api/events/1/revalidate

@@ -13,20 +13,30 @@ export function EventCard({ event }: EventCardProps) {
         className="w-full h-48 object-cover rounded-t-lg"
         src={event.image_url}
         alt={event.name}
-        width={300}
-        height={192}
+        width={400}
+        height={200}
+        priority
       />
+
       <div className="p-4">
         <h2 className="text-xl text-black font-bold">{event.name}</h2>
+
         <p className="text-gray-700 mt-2">
-          {new Date(event.date).toLocaleDateString()}
+          {`${new Date(event.date).toLocaleDateString()} às ${new Date(
+            event.date
+          )
+            .toLocaleTimeString()
+            .substring(0, 5)}`}
         </p>
+
         <p className="text-gray-700 mt-2">
-          Tem {event.available_spots} lugares disponíveis
+          {`Tem ${event.available_spots} lugares disponíveis`}
         </p>
+
         <p className="text-gray-700 mt-2">
-          R$ {event.price.toFixed(2).replace('.', ',')}
+          {`R$ ${event.price.toFixed(2).replace('.', ',')}`}
         </p>
+
         <p className="text-gray-700 mt-2 flex justify-end">
           <Link
             href={`/events/${event.id}/spots-layout`}
